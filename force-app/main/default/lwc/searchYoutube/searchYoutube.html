@@ -1,0 +1,10 @@
+<template>
+    <div class="slds-p-around_medium lgc-bg">
+        <lightning-input type="text" label="Enter search criteria" onchange={handleTextChange}></lightning-input>
+        <lightning-button variant="base" label="Search" title="Search Youtube" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button variant="base" label="Clear" title="Clear Text" onclick={handleClear} class="slds-m-left_x-small"></lightning-button>
+    </div>
+    <div>
+        {searchResult}
+    </div>
+</template>
