@@ -22,11 +22,70 @@ public with sharing class SearchYoutubeController {
             HttpResponse response = http.send(request);
 
             String body = response.getBody();
+
+            fromJSON d = (fromJSON)JSON.deserialize(body, fromJSON.class);
+            system.debug('Deserialized Response '+d);
+            system.debug('Deserialized Response '+d.kind);
+            system.debug('Deserialized Response '+d.pageInfo.totalResults);
             return body;
 
         } catch (Exception e) {
             system.debug(e.getMessage());
             return 'error';
         }
+    }
+
+    public class fromJSON{
+        public String kind;	//youtube#searchListResponse
+        public String etag;	//nkR0HCLIiaO2XvG1LP0bWw9kvnQ
+        public String nextPageToken;	//CAUQAA
+        public String regionCode;	//US
+        public cls_pageInfo pageInfo;
+        public cls_items[] items;
+    }
+
+    class cls_pageInfo {
+        public Integer totalResults;	//1000000
+        public Integer resultsPerPage;	//5
+    }
+    class cls_items {
+        public String kind;	//youtube#searchResult
+        public String etag;	//ykkBRnBA6tYYSP9dLNPGsMQ29aw
+        public cls_id id;
+        public cls_snippet snippet;
+    }
+    class cls_id {
+        public String kind;	//youtube#playlist
+        public String playlistId;	//PLKtwV0uJf2IoyEbAIpfSVqyu8GXi6D1zu
+    }
+    class cls_snippet {
+        public String publishedAt;	//2023-04-05T11:41:45Z
+        public String channelId;	//UCn7onrQ4bJCMX6HSVWETXzg
+        public String title;	//Mevlana Sözleri ( Mutlaka Dinleyin İlaç Gibi )
+        public String description;	//Kanalıma ücretsiz abone olabilir beğendiğiniz videolarıma yorum ve paylaşımlarla destek olabilirsiniz...Allah Hepinizden Razı ...
+        public cls_thumbnails thumbnails;
+        public String channelTitle;	//Ömer Hançeri
+        public String liveBroadcastContent;	//none
+        public String publishTime;	//2023-04-05T11:41:45Z
+    }
+    class cls_thumbnails {
+        public cls_default default_x;
+        public cls_medium medium;
+        public cls_high high;
+    }
+    class cls_default {
+        public String url;	//https://i.ytimg.com/vi/iIafwjHeKXE/default.jpg
+        public Integer width;	//120
+        public Integer height;	//90
+    }
+    class cls_medium {
+        public String url;	//https://i.ytimg.com/vi/iIafwjHeKXE/mqdefault.jpg
+        public Integer width;	//320
+        public Integer height;	//180
+    }
+    class cls_high {
+        public String url;	//https://i.ytimg.com/vi/iIafwjHeKXE/hqdefault.jpg
+        public Integer width;	//480
+        public Integer height;	//360
     }
 }
