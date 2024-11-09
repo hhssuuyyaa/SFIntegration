@@ -1,16 +1,14 @@
-import { LightningElement } from 'lwc';
+import { LightningElement,track } from 'lwc';
 import getSearchDetails from '@salesforce/apex/SearchYoutubeController.getSearchDetails';
-
 export default class SearchYoutube extends LightningElement {
 
     searchText = ''
-    searchResult
+    @track data
 
     handleClick(event){
-        console.log('searchText'+this.searchText);
         getSearchDetails({searchText: this.searchText})
             .then(result => {
-                this.searchResult = result;
+                this.data = result;
             })
     }
 
@@ -20,6 +18,8 @@ export default class SearchYoutube extends LightningElement {
 
     handleClear(event){
         this.searchText = '';
-        this.searchResult = '';
+        this.data = null;
     }
+
+    
 }

@@ -1,8 +1,8 @@
 public with sharing class SearchYoutubeController {
-    @AuraEnabled
-    public static string getSearchDetails(String searchText){
-        try {
 
+    @AuraEnabled
+    public static superItemList[] getSearchDetails(String searchText){
+        try {
             String endpoint = System.Label.YoutubeEndPoint;
             endpoint += '?part=snippet';
             endpoint += '&maxResults=5';
@@ -23,16 +23,44 @@ public with sharing class SearchYoutubeController {
 
             String body = response.getBody();
 
-            fromJSON d = (fromJSON)JSON.deserialize(body, fromJSON.class);
-            system.debug('Deserialized Response '+d);
-            system.debug('Deserialized Response '+d.kind);
-            system.debug('Deserialized Response '+d.pageInfo.totalResults);
-            return body;
+            fromJSON n = (fromJSON)JSON.deserialize(body, fromJSON.class);
+            system.debug('Deserialized Response '+n);
+            
+            superItemList[] dataSet = new superItemList[]{};
+
+            //Iterate the list for all the records returned from REST API
+            for(integer i=0; i< n.items.size(); i++){
+                dataSet.add(new superItemList( n.items[i].snippet.title, n.items[i].snippet.description, n.items[i].snippet.thumbnails.medium.url, n.items[i].snippet.publishedAt));                      
+            }
+            return dataSet;
 
         } catch (Exception e) {
             system.debug(e.getMessage());
-            return 'error';
+            superItemList[] dataSet = new superItemList[]{};
+            return dataSet;
         }
+    }
+
+    //Custom DataType
+    public class superItemList{
+        @AuraEnabled
+        public String title;
+
+        @AuraEnabled
+        public String description;
+
+        @AuraEnabled
+        public String thumbnailUrl;
+
+        @AuraEnabled
+        public String published;
+
+        public superItemList(String title, String description, String thumbnailUrl, String published){   
+            this.title = title;
+            this.description = description;
+            this.thumbnailUrl = thumbnailUrl;
+            this.published = published;
+        }    
     }
 
     public class fromJSON{

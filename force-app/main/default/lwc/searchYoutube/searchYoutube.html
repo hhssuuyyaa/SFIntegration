@@ -4,7 +4,55 @@
         <lightning-button variant="base" label="Search" title="Search Youtube" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
         <lightning-button variant="base" label="Clear" title="Clear Text" onclick={handleClear} class="slds-m-left_x-small"></lightning-button>
     </div>
-    <div>
-        {searchResult}
-    </div>
+
+    <template if:true={data}> 
+        <!--lightning-card title="Youtube Search"-->
+            <div class="slds-scrollable_y" style="height:100%;">
+                <table class="slds-table slds-table_fixed-layout slds-table_bordered slds-table--header-fixed">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed" title="Opportunity Name">
+                                    Title
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed" title="Opportunity Name">
+                                    Description
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed" title="Opportunity Name">
+                                    Published
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed" title="Opportunity Name">
+                                    Thumbnail
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={data} for:item="row">
+                            <tr key={row.title}>
+                                <td data-label="Title">
+                                    <div class="slds-truncate" title="Title">{row.title}</div>
+                                </td>
+                                <td data-label="Description">
+                                    <div class="slds-truncate" title="Description">{row.description}</div>
+                                </td>
+                                <td data-label="Published">
+                                    <div class="slds-truncate" title="Published">{row.published}</div>
+                                </td>
+                                <td data-label="Thumbnail">
+                                    <img src={row.thumbnailUrl} alt="Thumbnail" style="width: 100px; height: 50px; object-fit: cover;" />
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        <!--/lightning-card-->
+    </template>
 </template>
